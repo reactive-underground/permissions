@@ -34,5 +34,5 @@ export const Permissions = (...permissions: (PermissionInterface | string)[]) =>
         throw new TypeError(`Incorrect permission rule in decorator ${JSON.stringify(permission)}`);
     });
 
-    SetMetadata('permissions', permissions);
+    return SetMetadata('permissions', permissions);
 };

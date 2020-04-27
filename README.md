@@ -74,3 +74,16 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
   Nest is [MIT licensed](LICENSE).
 
+## Usage
+
+`npm install "module"`
+```
+
+imports: [
+    PermissionModule
+]
+
+```
+
+```
+```
