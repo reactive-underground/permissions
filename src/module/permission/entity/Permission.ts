@@ -1,4 +1,4 @@
-import Role from "./Role";
+import { Role } from "./Role";
 import { Expose, Exclude } from 'class-transformer';
 import { JoinTable, ManyToMany, Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
 
