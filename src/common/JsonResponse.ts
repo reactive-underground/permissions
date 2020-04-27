@@ -11,7 +11,7 @@ export class JsonResponse<T = any> {
     @Expose() private readonly status: boolean = true;
     @Expose() private readonly message: string = "result";
 
-    constructor(data: T, status: boolean = true, message: string = "result") {
+    constructor(data: T, status = true, message = "result") {
         this.data = data;
         this.status = status;
         this.message = message;

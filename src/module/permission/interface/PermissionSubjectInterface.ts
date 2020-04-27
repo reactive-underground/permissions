@@ -3,7 +3,7 @@
  * @author Artem Ilinykh devsinglesly@gmail.com
  * @interface PermissionSubjectInterface
  */
-import Role from "~/module/permission/entity/Role";
+import Role from "../entity/Role";
 
 export interface PermissionSubjectInterface {
     getRoles(): Role[];

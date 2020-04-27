@@ -1,10 +1,15 @@
 {
-  "name": "permissions",
+  "name": "dev-modules-permissions",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
+  "description": "Permission control",
+  "author": "Artem Ilinykh",
+  "private": false,
+  "main": "dist/index.js",
+  "license": "MIT",
+  "repository": {
+    "url": "https://gitlab.com/dev-modules/permissions",
+    "type": "git"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -18,7 +23,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "prepublish:npm": "npm run build",
+    "publish:npm": "npm publish --access public"
   },
   "dependencies": {
     "@nestjs-plus/discovery": "^2.0.2",

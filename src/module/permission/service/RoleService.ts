@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import RolesRepository from "~/module/permission/repository/RolesRepository";
-import {CreateRoleData} from "~/module/permission/dto/CreateRoleData";
-import Role from "~/module/permission/entity/Role";
-import {EditRoleData} from "~/module/permission/dto/EditRoleData";
+import RolesRepository from "../repository/RolesRepository";
+import {CreateRoleData} from "../dto/CreateRoleData";
+import Role from "../entity/Role";
+import {EditRoleData} from "../dto/EditRoleData";
 
 /**
  * @package module.permission.service

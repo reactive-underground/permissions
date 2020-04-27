@@ -10,13 +10,13 @@ import {
     UseInterceptors,
     CacheInterceptor, CacheTTL
 } from "@nestjs/common";
-import {PermissionService} from "~/module/permission/service/PermissionService";
-import {JsonResponse} from "~/common/JsonResponse";
+import {PermissionService} from "../service/PermissionService";
+import {JsonResponse} from "../../../common/JsonResponse";
 import Permission from "../entity/Permission";
-import {CreatePermissionData} from "~/module/permission/dto/CreatePermissionData";
-import {EditPermissionData} from "~/module/permission/dto/EditPermissionData";
+import {CreatePermissionData} from "../dto/CreatePermissionData";
+import {EditPermissionData} from "../dto/EditPermissionData";
 import { ApiTags } from "@nestjs/swagger";
-import { Permissions } from "~/module/permission/decorator/Permissions";
+import { Permissions } from "../decorator/Permissions";
 
 /**
  * @package module.permission.controller

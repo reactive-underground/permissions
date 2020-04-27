@@ -1,9 +1,9 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { PermissionService } from "~/module/permission/service/PermissionService";
-import { PermissionInterface } from "~/module/permission/interface/PermissionInterface";
-import { PermissionDeniedException } from "~/module/permission/exception/PermissionDeniedException";
-import { PermissionSubjectInterface } from "~/module/permission/interface/PermissionSubjectInterface";
+import { PermissionService } from "../service/PermissionService";
+import { PermissionInterface } from "../interface/PermissionInterface";
+import { PermissionDeniedException } from "../exception/PermissionDeniedException";
+import { PermissionSubjectInterface } from "../interface/PermissionSubjectInterface";
 
 /**
  * @package module.permission.guard

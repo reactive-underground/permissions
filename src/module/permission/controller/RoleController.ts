@@ -1,4 +1,4 @@
-import {JsonResponse} from "~/common/JsonResponse";
+import {JsonResponse} from "../../../common/JsonResponse";
 import {
     Controller,
     Get,
@@ -11,12 +11,12 @@ import {
     UseInterceptors,
     CacheInterceptor, CacheTTL
 } from "@nestjs/common";
-import {RoleService} from "~/module/permission/service/RoleService";
-import Role from "~/module/permission/entity/Role";
-import {CreateRoleData} from "~/module/permission/dto/CreateRoleData";
-import {EditRoleData} from "~/module/permission/dto/EditRoleData";
+import {RoleService} from "../service/RoleService";
+import Role from "../entity/Role";
+import {CreateRoleData} from "../dto/CreateRoleData";
+import {EditRoleData} from "../dto/EditRoleData";
 import { ApiTags } from "@nestjs/swagger";
-import { Permissions } from "~/module/permission/decorator/Permissions";
+import { Permissions } from "../decorator/Permissions";
 
 /**
  * @package module.permission.controller

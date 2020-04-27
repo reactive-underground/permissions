@@ -3,7 +3,7 @@
  * @author Artem Ilinykh devsinglesly@gmail.com
  */
 import { SetMetadata } from "@nestjs/common";
-import { PermissionInterface } from "~/module/permission/interface/PermissionInterface";
+import { PermissionInterface } from "../interface/PermissionInterface";
 import { LogicalException } from "node-exceptions/build/src";
 
 export const Permissions = (...permissions: (PermissionInterface | string)[]) => {

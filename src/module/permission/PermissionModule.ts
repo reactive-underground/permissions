@@ -1,11 +1,11 @@
 import { CacheModule, Module, OnModuleInit } from "@nestjs/common";
-import PermissionRepository from "~/module/permission/repository/PermissionRepository";
-import RolesRepository from "~/module/permission/repository/RolesRepository";
-import {RoleController} from "~/module/permission/controller/RoleController";
-import {PermissionController} from "~/module/permission/controller/PermissionController";
-import {RoleService} from "~/module/permission/service/RoleService";
-import {PermissionService} from "~/module/permission/service/PermissionService";
-import { PermissionInterface } from "~/module/permission/interface/PermissionInterface";
+import PermissionRepository from "./repository/PermissionRepository";
+import RolesRepository from "./repository/RolesRepository";
+import {RoleController} from "./controller/RoleController";
+import {PermissionController} from "./controller/PermissionController";
+import {RoleService} from "./service/RoleService";
+import {PermissionService} from "./service/PermissionService";
+import { PermissionInterface } from "./interface/PermissionInterface";
 import { DiscoveryModule, DiscoveryService } from "@nestjs-plus/discovery";
 
 /**
