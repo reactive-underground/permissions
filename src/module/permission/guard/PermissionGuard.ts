@@ -1,9 +1,9 @@
-import { CanActivate, ExecutionContext, UnauthorizedException, Injectable } from "@nestjs/common";
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { PermissionService } from "~/module/permission/service/PermissionService";
-import User from "~/entity/User";
-import { TranslatableException } from "~/common/exception/TranslatableException";
 import { PermissionInterface } from "~/module/permission/interface/PermissionInterface";
+import { PermissionDeniedException } from "~/module/permission/exception/PermissionDeniedException";
+import { PermissionSubjectInterface } from "~/module/permission/interface/PermissionSubjectInterface";
 
 /**
  * @package module.permission.guard
@@ -19,7 +19,8 @@ export class PermissionGuard implements CanActivate{
     ) {}
 
     public async canActivate(context: ExecutionContext) {
-        const permissions: PermissionInterface[] = this.reflector.get('permissions', context.getHandler());
+        const permissions: PermissionInterface[] = this.reflector
+            .get<(PermissionInterface)[]>('permissions', context.getHandler())
 
         if(!permissions || !permissions.length) {
             return true;
@@ -28,13 +29,13 @@ export class PermissionGuard implements CanActivate{
         const request = context.switchToHttp().getRequest();
 
 
-        const user: User = request.user;
+        const user: PermissionSubjectInterface = request.user;
 
         if(!user) {
-            throw new UnauthorizedException();
+            throw new PermissionDeniedException();
         }
 
-        if(user.isAdmin()) {
+        if(user.isRoot()) {
             return true;
         }
 
@@ -45,7 +46,7 @@ export class PermissionGuard implements CanActivate{
         const hasAccess = validatedPermissions.some(value => value);
 
         if(!hasAccess) {
-            throw new TranslatableException("Permission denied.", "PERMISSIONS.DENIED");
+            throw new PermissionDeniedException();
         }
 
         return true;

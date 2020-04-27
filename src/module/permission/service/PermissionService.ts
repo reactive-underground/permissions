@@ -4,6 +4,8 @@ import {CreatePermissionData} from "~/module/permission/dto/CreatePermissionData
 import {EditPermissionData} from "~/module/permission/dto/EditPermissionData";
 import RolesRepository from "~/module/permission/repository/RolesRepository";
 import Permission from "~/module/permission/entity/Permission";
+import { PermissionInterface } from "~/module/permission/interface/PermissionInterface";
+import { PermissionSubjectInterface } from "~/module/permission/interface/PermissionSubjectInterface";
 
 /**
  * @package module.permission
@@ -30,16 +32,23 @@ export class PermissionService {
         return this.permissions;
     }
 
-    public async hasAccess(roleIds: number[], permission: string): Promise<boolean> {
-        const entity = this.permissions.find(p => p.is(permission));
+    public async hasAccess(subject: PermissionSubjectInterface, permissions: PermissionInterface[]): Promise<boolean> {
 
-        if(!entity) {
-            return true;
+        for(const permission of permissions) {
+            const entity = this.permissions.find(p => p.is(permission.permission));
+
+            if(!entity) {
+                return true;
+            }
+
+            const roles = await this.rolesRepository.findByIds(subject.getRoles().map(role => role.getId()));
+
+            if(entity.isAccess(roles)) {
+                return true;
+            }
         }
 
-        const roles = await this.rolesRepository.findByIds(roleIds);
-
-        return entity.isAccess(roles);
+        return false;
     }
 
     public async define(name: string, permission: string): Promise<Permission> {

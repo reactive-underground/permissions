@@ -46,7 +46,7 @@ export class PermissionModule implements OnModuleInit {
         const methodsWithPermissions = await this.discoveryService.controllerMethodsWithMetaAtKey('permissions');
 
         const permissions: PermissionInterface[] = methodsWithPermissions.map<PermissionInterface[]>(method => {
-            return (method.meta) as PermissionInterface[];
+            return method.meta as PermissionInterface[];
         })
             .reduce((accum, item) => {
                 accum.push(...item);

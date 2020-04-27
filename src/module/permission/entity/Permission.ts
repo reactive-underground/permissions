@@ -18,7 +18,7 @@ export default class Permission {
     @Expose({name: 'permission'})
     private permission: string;
 
-    @ManyToMany(type => Role, {eager: true})
+    @ManyToMany(() => Role, {eager: true})
     @JoinTable({
         joinColumn: {name: 'permissions_id', referencedColumnName: "id"},
         inverseJoinColumn: {name: 'roles_id', referencedColumnName: "id"}
