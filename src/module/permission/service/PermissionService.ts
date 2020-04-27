@@ -1,0 +1,113 @@
+import { Injectable, Logger } from "@nestjs/common";
+import PermissionRepository from "~/module/permission/repository/PermissionRepository";
+import {CreatePermissionData} from "~/module/permission/dto/CreatePermissionData";
+import {EditPermissionData} from "~/module/permission/dto/EditPermissionData";
+import RolesRepository from "~/module/permission/repository/RolesRepository";
+import Permission from "~/module/permission/entity/Permission";
+
+/**
+ * @package module.permission
+ * @author Artem Ilinykh devsinglesly@gmail.com
+ * @class PermissionService
+ */
+@Injectable()
+export class PermissionService {
+
+    private readonly logger: Logger = new Logger('PermissionService');
+    private permissions: Permission[] = [];
+
+
+    constructor(
+        private readonly permissionRepository: PermissionRepository,
+        private readonly rolesRepository: RolesRepository,
+    ) {
+        this.fetch();
+    }
+
+    public async fetch(): Promise<Permission[]> {
+        this.permissions = await this.permissionRepository.findAll();
+
+        return this.permissions;
+    }
+
+    public async hasAccess(roleIds: number[], permission: string): Promise<boolean> {
+        const entity = this.permissions.find(p => p.is(permission));
+
+        if(!entity) {
+            return true;
+        }
+
+        const roles = await this.rolesRepository.findByIds(roleIds);
+
+        return entity.isAccess(roles);
+    }
+
+    public async define(name: string, permission: string): Promise<Permission> {
+
+        const found = await this.permissionRepository.findByPermission(permission);
+
+        if(found) {
+            this.logger.log(`${permission} defined already`);
+            return found;
+        }
+
+        const permissionEntity = new Permission(name, permission);
+
+        const role = await this.rolesRepository.findByName('admin');
+
+        if(role) {
+            permissionEntity.changeRoles([role]);
+        }
+
+        await this.permissionRepository.save(permissionEntity);
+        await this.fetch();
+
+        this.logger.log(`${permission} initialize`);
+
+        return permissionEntity;
+    }
+
+    public async create(data: CreatePermissionData): Promise<Permission> {
+        const permission = new Permission(data.name, data.permission);
+
+        if(Array.isArray(data.roleIds)) {
+            const roles = await this.rolesRepository.findByIds(data.roleIds);
+            permission.changeRoles(roles);
+        }
+
+        await this.permissionRepository.save(permission);
+        await this.fetch();
+
+        return permission;
+    }
+
+    public async edit(data: EditPermissionData): Promise<Permission> {
+        const permission = await this.permissionRepository.getOneById(data.id);
+
+
+        if(data.name) {
+            permission.changeName(data.name);
+        }
+
+        if(data.permission) {
+            permission.edit(data.permission);
+        }
+
+        if(data.roleIds) {
+            const roles = await this.rolesRepository.findByIds(data.roleIds);
+            permission.changeRoles(roles);
+        }
+
+
+        await this.permissionRepository.update(permission);
+        await this.fetch();
+
+        return permission;
+    }
+
+    public async remove(id: number): Promise<void> {
+        await this.permissionRepository.removeById(id);
+        await this.fetch();
+    }
+
+}
