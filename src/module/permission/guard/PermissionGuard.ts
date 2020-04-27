@@ -29,21 +29,17 @@ export class PermissionGuard implements CanActivate{
         const request = context.switchToHttp().getRequest();
 
 
-        const user: PermissionSubjectInterface = request.user;
+        const subject: PermissionSubjectInterface = request.user;
 
-        if(!user) {
+        if(!subject) {
             throw new PermissionDeniedException();
         }
 
-        if(user.isRoot()) {
+        if(subject.isRoot()) {
             return true;
         }
 
-        const validatedPermissions = await Promise.all(permissions.map(async (permission) => {
-            return await this.permissionService.hasAccess(user.getRoles().map(role => role.getId()), permission.permission);
-        }));
-
-        const hasAccess = validatedPermissions.some(value => value);
+        const hasAccess = await this.permissionService.hasAccess(subject, permissions);
 
         if(!hasAccess) {
             throw new PermissionDeniedException();
