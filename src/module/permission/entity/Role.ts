@@ -2,7 +2,7 @@ import { Expose } from 'class-transformer';
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity({ name: "roles" })
-export default class Role {
+export class Role {
 
     @PrimaryGeneratedColumn({name: 'id'})
     @Expose({name: 'id'})

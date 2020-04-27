@@ -1,9 +1,9 @@
 import { Injectable, Logger } from "@nestjs/common";
-import PermissionRepository from "../repository/PermissionRepository";
+import { PermissionRepository } from "../repository/PermissionRepository";
 import {CreatePermissionData} from "../dto/CreatePermissionData";
 import {EditPermissionData} from "../dto/EditPermissionData";
-import RolesRepository from "../repository/RolesRepository";
-import Permission from "../entity/Permission";
+import { RolesRepository } from "../repository/RolesRepository";
+import { Permission } from "../entity/Permission";
 import { PermissionInterface } from "../interface/PermissionInterface";
 import { PermissionSubjectInterface } from "../interface/PermissionSubjectInterface";
 

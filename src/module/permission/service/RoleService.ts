@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import RolesRepository from "../repository/RolesRepository";
+import { RolesRepository } from "../repository/RolesRepository";
 import {CreateRoleData} from "../dto/CreateRoleData";
-import Role from "../entity/Role";
+import { Role } from "../entity/Role";
 import {EditRoleData} from "../dto/EditRoleData";
 
 /**

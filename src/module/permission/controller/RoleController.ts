@@ -12,7 +12,7 @@ import {
     CacheInterceptor, CacheTTL
 } from "@nestjs/common";
 import {RoleService} from "../service/RoleService";
-import Role from "../entity/Role";
+import { Role } from "../entity/Role";
 import {CreateRoleData} from "../dto/CreateRoleData";
 import {EditRoleData} from "../dto/EditRoleData";
 import { ApiTags } from "@nestjs/swagger";

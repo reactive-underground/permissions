@@ -1,9 +1,9 @@
 import {Connection, Repository, In} from "typeorm";
-import Role from "./../entity/Role";
+import { Role } from "./../entity/Role";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export default class RolesRepository{
+export class RolesRepository{
     public get Repo() {
         return this.repository;
     }

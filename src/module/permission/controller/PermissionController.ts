@@ -12,7 +12,7 @@ import {
 } from "@nestjs/common";
 import {PermissionService} from "../service/PermissionService";
 import {JsonResponse} from "../../../common/JsonResponse";
-import Permission from "../entity/Permission";
+import { Permission } from "../entity/Permission";
 import {CreatePermissionData} from "../dto/CreatePermissionData";
 import {EditPermissionData} from "../dto/EditPermissionData";
 import { ApiTags } from "@nestjs/swagger";

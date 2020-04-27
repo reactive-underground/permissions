@@ -1,6 +1,6 @@
 import { CacheModule, Module, OnModuleInit } from "@nestjs/common";
-import PermissionRepository from "./repository/PermissionRepository";
-import RolesRepository from "./repository/RolesRepository";
+import { PermissionRepository } from "./repository/PermissionRepository";
+import { RolesRepository } from "./repository/RolesRepository";
 import {RoleController} from "./controller/RoleController";
 import {PermissionController} from "./controller/PermissionController";
 import {RoleService} from "./service/RoleService";

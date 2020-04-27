@@ -4,7 +4,7 @@ import { JoinTable, ManyToMany, Column, PrimaryGeneratedColumn, Entity } from 't
 
 
 @Entity({ name: "permissions" })
-export default class Permission {
+export class Permission {
 
     @PrimaryGeneratedColumn({name: 'id'})
     @Expose({name: 'id'})
