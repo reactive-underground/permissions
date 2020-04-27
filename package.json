@@ -1,6 +1,6 @@
 {
   "name": "dev-modules-permissions",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Permission control",
   "author": "Artem Ilinykh",
   "private": false,
