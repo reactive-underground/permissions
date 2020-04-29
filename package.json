@@ -1,6 +1,6 @@
 {
   "name": "dev-modules-permissions",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "Permission control",
   "author": "Artem Ilinykh",
   "private": false,
@@ -62,6 +62,15 @@
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.7.4"
   },
+  "directories": {
+    "man": "dist"
+  },
+  "files": [
+    "index.d.ts",
+    "index.ts",
+    "index.js",
+    "dist/**/*"
+  ],
   "jest": {
     "moduleFileExtensions": [
       "js",

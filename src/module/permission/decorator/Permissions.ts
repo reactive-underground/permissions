@@ -12,7 +12,7 @@ export const Permissions = (...permissions: (PermissionInterface | string)[]) =>
         throw new LogicalException("Permission decorator should be have 1 or greater rule");
     }
 
-    permissions.forEach(permission => {
+    permissions = permissions.map(permission => {
         if(typeof permission === "string") {
             return {
                 permission: permission,
