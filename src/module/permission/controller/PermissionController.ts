@@ -8,7 +8,7 @@ import {
     Put,
     HttpCode,
     UseInterceptors,
-    CacheInterceptor, CacheTTL
+    CacheInterceptor, CacheTTL, CACHE_MANAGER, CacheStore, Inject, CacheKey
 } from "@nestjs/common";
 import {PermissionService} from "../service/PermissionService";
 import {JsonResponse} from "../../../common/JsonResponse";
@@ -28,11 +28,13 @@ import { Permissions } from "../decorator/Permissions";
 export class PermissionController {
 
     constructor(
-        private readonly permissionService: PermissionService
+        private readonly permissionService: PermissionService,
+        @Inject(CACHE_MANAGER) private readonly cacheManager: CacheStore
     ) {}
 
     @Get('permissions')
     @UseInterceptors(CacheInterceptor)
+    @CacheKey("permissions.fetch")
     @CacheTTL(60)
     public async fetch(): Promise<JsonResponse<Permission[]>> {
         return new JsonResponse(
@@ -58,6 +60,7 @@ export class PermissionController {
         permission: 'permission.edit'
     })
     public async edit(@Body() data: EditPermissionData): Promise<JsonResponse<Permission>> {
+        await this.cacheManager.del("permissions.fetch");
         return new JsonResponse<Permission>(
             await this.permissionService.edit(data)
         )

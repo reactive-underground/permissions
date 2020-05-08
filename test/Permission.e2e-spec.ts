@@ -20,7 +20,11 @@ describe("Permission test", () => {
     let roles: Role[];
 
 
-    async function clearDatabase() {}
+    async function clearDatabase() {
+        await connection.getRepository(Role).delete({} as any);
+        await connection.getRepository(Permission).delete({} as any);
+
+    }
 
     async function initData() {
         permissionService = await app.get(PermissionService);
