@@ -22,27 +22,19 @@ export class PermissionGuard implements CanActivate{
         const permissions: PermissionInterface[] = this.reflector
             .get<(PermissionInterface)[]>('permissions', context.getHandler())
 
-        if(!permissions || !permissions.length) {
-            return true;
-        }
-
         const request = context.switchToHttp().getRequest();
 
 
         const subject: PermissionSubjectInterface = request.user;
 
         if(!subject) {
-            throw new PermissionDeniedException();
-        }
-
-        if(subject.isRoot()) {
-            return true;
+            throw new PermissionDeniedException("Subject not recognized.");
         }
 
         const hasAccess = await this.permissionService.hasAccess(subject, permissions);
 
         if(!hasAccess) {
-            throw new PermissionDeniedException();
+            throw new PermissionDeniedException("Access not granted");
         }
 
         return true;

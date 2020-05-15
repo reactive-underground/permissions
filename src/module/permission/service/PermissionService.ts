@@ -34,6 +34,14 @@ export class PermissionService {
 
     public async hasAccess(subject: PermissionSubjectInterface, permissions: PermissionInterface[]): Promise<boolean> {
 
+        if(!permissions || !permissions.length) {
+            return true;
+        }
+
+        if(subject.isRoot()) {
+            return true;
+        }
+
         for(const permission of permissions) {
             const entity = this.permissions.find(p => p.is(permission.permission));
 
