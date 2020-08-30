@@ -1,5 +1,5 @@
 {
-  "name": "dev-modules-permissions",
+  "name": "@reactive-underground/permissions",
   "version": "0.1.11",
   "description": "Permission control",
   "author": "Artem Ilinykh",
@@ -7,9 +7,12 @@
   "main": "dist/index.js",
   "license": "MIT",
   "repository": {
-    "url": "https://gitlab.com/dev-modules/permissions",
+    "url": "https://github.com/reactive-underground/permissions",
     "type": "git"
   },
+  "keywords": [
+    "nestjs", "permissions", "access control"
+  ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -31,8 +34,6 @@
     "@nestjs-plus/discovery": "^2.0.2",
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
-    "@nestjs/platform-express": "^7.0.0",
-    "@nestjs/swagger": "^4.5.3",
     "class-transformer": "^0.2.3",
     "node-exceptions": "^4.0.1",
     "reflect-metadata": "^0.1.13",
@@ -43,6 +44,8 @@
     "typeorm": "^0.2.24"
   },
   "devDependencies": {
+    "@nestjs/platform-express": "^7.0.0",
+    "@nestjs/swagger": "^4.5.3",
     "@nestjs/cli": "^7.0.0",
     "@nestjs/schematics": "^7.0.0",
     "@nestjs/testing": "^7.0.0",
