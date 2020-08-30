@@ -21,7 +21,6 @@ import { Permissions } from "../decorator/Permissions";
  * @class RoleController
  */
 @ApiTags('Roles')
-@Controller('api/v3')
 export class RoleController {
 
     constructor(

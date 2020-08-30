@@ -1,10 +1,12 @@
-import { DynamicModule, Module, Provider } from "@nestjs/common";
+import { Controller, DynamicModule, Module, Provider } from "@nestjs/common";
 import {RoleService} from "./service/RoleService";
 import {PermissionService} from "./service/PermissionService";
 import { DiscoveryModule } from "@nestjs-plus/discovery";
 import { Interface } from "./decorator/Interface";
 import { PERMISSION_REPOSITORY_INTERFACE, ROLE_REPOSITORY_INTERFACE } from "./constants/constants";
 import { PermissionModuleInitInterface } from "./PermissionModuleInitInterface";
+import { PermissionController } from "./controller/PermissionController";
+import { RoleController } from "./controller/RoleController";
 
 /**
  * @package module.permission
@@ -26,11 +28,20 @@ export class PermissionModule {
             RoleService,
             PermissionService
         ];
+
+        const prefix = options.controller?.prefix || "";
+        Controller(prefix)(PermissionController)
+        Controller(prefix)(RoleController)
+
         return {
-            module: PermissionModule,
             imports: [
                 DiscoveryModule
             ],
+            controllers: [
+                PermissionController,
+                RoleController
+            ],
+            module: PermissionModule,
             providers,
             exports: providers
         }

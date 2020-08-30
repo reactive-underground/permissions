@@ -1,12 +1,9 @@
 import {Connection, Repository, In} from "typeorm";
-import { Role } from "./../entity/Role";
+import { Role } from "../../entity/Role";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class RolesRepository{
-    public get Repo() {
-        return this.repository;
-    }
+export class SqlRoleRepository{
     public readonly repository: Repository<Role> = this.connection.getRepository(Role);
 
     public constructor(

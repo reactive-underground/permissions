@@ -2,9 +2,8 @@
 
 ## Purposes
 1. Customize endpoints
-2. Support multiple databases (postgres, mongo, mysql, redis, file)
+2. Support multiple databases (postgres, mongo, mysql, redis, file) +
 3. Customize guard handling
-4. Fix naming
 
 ## Usage interface
 

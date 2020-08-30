@@ -21,7 +21,6 @@ import { Permissions } from "../decorator/Permissions";
  * @class PermissionController
  */
 @ApiTags('Permissions')
-@Controller('api/v3')
 export class PermissionController {
 
     constructor(

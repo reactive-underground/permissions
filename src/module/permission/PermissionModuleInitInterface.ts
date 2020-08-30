@@ -7,4 +7,7 @@ export interface PermissionModuleInitInterface {
         permission: ClassType<PermissionRepositoryInterface>,
         role: ClassType<RoleRepositoryInterface>
     };
+    controller?: {
+        prefix?: string;
+    }
 }

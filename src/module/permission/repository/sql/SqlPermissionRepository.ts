@@ -1,14 +1,10 @@
 import {Connection, Repository} from "typeorm";
-import { Permission } from "../entity/Permission";
+import { Permission } from "../../entity/Permission";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class PermissionRepository{
-    public get Repo() {
-        return this.repository;
-    }
+export class SqlPermissionRepository {
     public readonly repository: Repository<Permission> = this.connection.getRepository(Permission);
-
 
     public constructor(
         private readonly connection: Connection
@@ -43,7 +39,7 @@ export class PermissionRepository{
     }
 
     public async removeById(id: number): Promise<void> {
-        await this.repository.delete(1);
+        await this.repository.delete(id);
     }
 
     public async clear(): Promise<void> {
