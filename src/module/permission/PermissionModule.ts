@@ -1,4 +1,4 @@
-import { CacheModule, Module, OnModuleInit } from "@nestjs/common";
+import { Module, OnModuleInit } from "@nestjs/common";
 import { PermissionRepository } from "./repository/PermissionRepository";
 import { RolesRepository } from "./repository/RolesRepository";
 import {RoleController} from "./controller/RoleController";
@@ -15,7 +15,6 @@ import { DiscoveryModule, DiscoveryService } from "@nestjs-plus/discovery";
  */
 @Module({
     imports: [
-        CacheModule.register(),
         DiscoveryModule,
     ],
     controllers: [

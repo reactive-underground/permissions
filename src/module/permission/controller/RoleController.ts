@@ -1,4 +1,3 @@
-import {JsonResponse} from "../../../common/JsonResponse";
 import {
     Controller,
     Get,
@@ -8,8 +7,6 @@ import {
     Param,
     Body,
     HttpCode,
-    UseInterceptors,
-    CacheInterceptor, CacheTTL
 } from "@nestjs/common";
 import {RoleService} from "../service/RoleService";
 import { Role } from "../entity/Role";
@@ -29,16 +26,11 @@ export class RoleController {
 
     constructor(
         private readonly roleService: RoleService
-    ) {
-    }
+    ) {}
 
     @Get('roles')
-    @UseInterceptors(CacheInterceptor)
-    @CacheTTL(60)
-    public async fetch(): Promise<JsonResponse<Role[]>> {
-        return new JsonResponse(
-            await this.roleService.fetch()
-        )
+    public async fetch(): Promise<Role[]> {
+        return await this.roleService.fetch()
     }
 
     @Post('role')
@@ -47,10 +39,8 @@ export class RoleController {
         name: "Role create",
         permission: 'role.create'
     })
-    public async create(@Body() data: CreateRoleData): Promise<JsonResponse<Role>> {
-        return new JsonResponse<Role>(
-            await this.roleService.create(data)
-        )
+    public async create(@Body() data: CreateRoleData): Promise<Role> {
+        return  await this.roleService.create(data)
     }
 
     @Put('role')
@@ -58,10 +48,8 @@ export class RoleController {
         name: "Role edit",
         permission: 'role.edit'
     })
-    public async edit(@Body() data: EditRoleData): Promise<JsonResponse<Role>> {
-        return new JsonResponse<Role>(
-            await this.roleService.edit(data)
-        )
+    public async edit(@Body() data: EditRoleData): Promise<Role> {
+        return await this.roleService.edit(data)
     }
 
     @Delete("role/:id")
@@ -70,9 +58,6 @@ export class RoleController {
         permission: 'role.delete'
     })
     public async remove(@Param("id") id: number) {
-
         await this.roleService.remove(id);
-
-        return new JsonResponse({});
     }
 }
