@@ -4,7 +4,7 @@
  * @class CreateRoleData
  */
 export class CreateRoleData {
-    title: string;
-    name: string;
+    title!: string;
+    name!: string;
     persistence?: boolean;
 }

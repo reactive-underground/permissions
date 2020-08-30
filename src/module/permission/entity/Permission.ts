@@ -8,7 +8,7 @@ export class Permission {
 
     @PrimaryGeneratedColumn({name: 'id'})
     @Expose({name: 'id'})
-    private id: number;
+    private id!: number;
 
     @Column({name: 'name'})
     @Expose({name: 'name'})
@@ -24,7 +24,7 @@ export class Permission {
         inverseJoinColumn: {name: 'roles_id', referencedColumnName: "id"}
     })
     @Exclude()
-    private roles: Role[];
+    private roles!: Role[];
 
     public constructor(name: string, permission: string){
         this.name = name;

@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import {CreateRoleData} from "../dto/CreateRoleData";
+import { CreateRoleData } from "../dto/CreateRoleData";
 import { Role } from "../entity/Role";
-import {EditRoleData} from "../dto/EditRoleData";
-import { RoleRepositoryInterface } from "~/module/permission/repository/RoleRepositoryInterface";
-import { InjectRoleRepository } from "~/module/permission/decorator/InjectRoleRepository";
+import { EditRoleData } from "../dto/EditRoleData";
+import { RoleRepositoryInterface } from "../../..";
+import { InjectRoleRepository } from "../decorator/InjectRoleRepository";
 
 /**
  * @package module.permission.service

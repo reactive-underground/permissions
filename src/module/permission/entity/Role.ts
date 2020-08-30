@@ -6,7 +6,7 @@ export class Role {
 
     @PrimaryGeneratedColumn({name: 'id'})
     @Expose({name: 'id'})
-    private id: number;
+    private id!: number;
 
     @Column({name: 'name', unique: true})
     @Expose({name: 'name'})

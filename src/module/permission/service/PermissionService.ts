@@ -4,10 +4,9 @@ import {EditPermissionData} from "../dto/EditPermissionData";
 import { Permission } from "../entity/Permission";
 import { PermissionInterface } from "../interface/PermissionInterface";
 import { PermissionSubjectInterface } from "../interface/PermissionSubjectInterface";
-import { PermissionRepositoryInterface } from "~/module/permission/repository/PermissionRepositoryInterface";
-import { InjectPermissionRepository } from "~/module/permission/decorator/InjectPermissionRepository";
-import { RoleRepositoryInterface } from "~/module/permission/repository/RoleRepositoryInterface";
-import { InjectRoleRepository } from "~/module/permission/decorator/InjectRoleRepository";
+import { InjectRoleRepository } from "../decorator/InjectRoleRepository";
+import { PermissionRepositoryInterface, RoleRepositoryInterface } from "../../..";
+import { InjectPermissionRepository } from "../decorator/InjectPermissionRepository";
 
 /**
  * @package module.permission

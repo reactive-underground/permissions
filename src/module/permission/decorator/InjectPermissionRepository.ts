@@ -1,4 +1,4 @@
-import { PERMISSION_REPOSITORY_INTERFACE } from "~/module/permission/constants/constants";
+import { PERMISSION_REPOSITORY_INTERFACE } from "../constants/constants";
 import { Inject } from "@nestjs/common";
 
 export function InjectPermissionRepository(): (target: object, key: string | symbol, index?: number) => void {

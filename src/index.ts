@@ -18,3 +18,5 @@ export * from "./module/permission/dto/EditPermissionData";
 export * from "./module/permission/dto/EditRoleData";
 export * from "./module/permission/repository/PermissionRepository";
 export * from "./module/permission/repository/RolesRepository";
+export * from "./module/permission/repository/RoleRepositoryInterface";
+export * from "./module/permission/repository/PermissionRepositoryInterface";

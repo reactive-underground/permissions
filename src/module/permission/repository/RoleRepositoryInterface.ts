@@ -1,4 +1,5 @@
-import { Role } from "~/module/permission/entity/Role";
+import { Role } from "../entity/Role";
+
 
 export interface RoleRepositoryInterface {
     findAll(): Promise<Role[]>;

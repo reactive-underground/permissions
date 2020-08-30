@@ -1,4 +1,4 @@
-import { Permission } from "~/module/permission/entity/Permission";
+import { Permission } from "../entity/Permission";
 
 export interface PermissionRepositoryInterface {
     findAll(): Promise<Permission[]>;
