@@ -1,11 +1,13 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { PermissionRepository } from "../repository/PermissionRepository";
 import {CreatePermissionData} from "../dto/CreatePermissionData";
 import {EditPermissionData} from "../dto/EditPermissionData";
-import { RolesRepository } from "../repository/RolesRepository";
 import { Permission } from "../entity/Permission";
 import { PermissionInterface } from "../interface/PermissionInterface";
 import { PermissionSubjectInterface } from "../interface/PermissionSubjectInterface";
+import { PermissionRepositoryInterface } from "~/module/permission/repository/PermissionRepositoryInterface";
+import { InjectPermissionRepository } from "~/module/permission/decorator/InjectPermissionRepository";
+import { RoleRepositoryInterface } from "~/module/permission/repository/RoleRepositoryInterface";
+import { InjectRoleRepository } from "~/module/permission/decorator/InjectRoleRepository";
 
 /**
  * @package module.permission
@@ -16,20 +18,14 @@ import { PermissionSubjectInterface } from "../interface/PermissionSubjectInterf
 export class PermissionService {
 
     private readonly logger: Logger = new Logger('PermissionService');
-    private permissions: Permission[] = [];
-
 
     constructor(
-        private readonly permissionRepository: PermissionRepository,
-        private readonly rolesRepository: RolesRepository,
-    ) {
-        this.fetch();
-    }
+        @InjectPermissionRepository() private readonly permissionRepository: PermissionRepositoryInterface,
+        @InjectRoleRepository() private readonly roleRepository: RoleRepositoryInterface,
+    ) {}
 
     public async fetch(): Promise<Permission[]> {
-        this.permissions = await this.permissionRepository.findAll();
-
-        return this.permissions;
+        return this.permissionRepository.findAll();
     }
 
     public async hasAccess(subject: PermissionSubjectInterface, permissions: PermissionInterface[]): Promise<boolean> {
@@ -42,14 +38,15 @@ export class PermissionService {
             return true;
         }
 
+
         for(const permission of permissions) {
-            const entity = this.permissions.find(p => p.is(permission.permission));
+            const entity = await this.permissionRepository.findByPermission(permission.permission);
 
             if(!entity) {
                 return true;
             }
 
-            const roles = await this.rolesRepository.findByIds(subject.getRoles().map(role => role.getId()));
+            const roles = await this.roleRepository.findByIds(subject.getRoles().map(role => role.getId()));
 
             if(entity.isAccess(roles)) {
                 return true;
@@ -70,14 +67,13 @@ export class PermissionService {
 
         const permissionEntity = new Permission(name, permission);
 
-        const role = await this.rolesRepository.findByName('admin');
+        const role = await this.roleRepository.findByName('admin');
 
         if(role) {
             permissionEntity.changeRoles([role]);
         }
 
         await this.permissionRepository.save(permissionEntity);
-        await this.fetch();
 
         this.logger.log(`${permission} initialize`);
 
@@ -88,12 +84,11 @@ export class PermissionService {
         const permission = new Permission(data.name, data.permission);
 
         if(Array.isArray(data.roleIds)) {
-            const roles = await this.rolesRepository.findByIds(data.roleIds);
+            const roles = await this.roleRepository.findByIds(data.roleIds);
             permission.changeRoles(roles);
         }
 
         await this.permissionRepository.save(permission);
-        await this.fetch();
 
         return permission;
     }
@@ -111,20 +106,18 @@ export class PermissionService {
         }
 
         if(data.roleIds) {
-            const roles = await this.rolesRepository.findByIds(data.roleIds);
+            const roles = await this.roleRepository.findByIds(data.roleIds);
             permission.changeRoles(roles);
         }
 
 
         await this.permissionRepository.update(permission);
-        await this.fetch();
 
         return permission;
     }
 
     public async remove(id: number): Promise<void> {
         await this.permissionRepository.removeById(id);
-        await this.fetch();
     }
 
 }

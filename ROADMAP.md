@@ -13,6 +13,12 @@
 import: [
     PermissionsModule
 ]
+providers: [
+    {
+        provide: Interface(PERMISSION),
+        useClass: FilePermissionRepository
+    }   
+]
 ```
 
 ### Endpoint customization
