@@ -75,9 +75,6 @@
     "man": "dist"
   },
   "files": [
-    "index.d.ts",
-    "index.ts",
-    "index.js",
     "dist/**/*"
   ],
   "jest": {

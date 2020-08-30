@@ -12,7 +12,12 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./src",
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "~/*": [
+        "./*"
+      ]
+    }
   },
   "exclude": ["node_modules", "dist", "index.ts", "index.d.ts"]
 }
