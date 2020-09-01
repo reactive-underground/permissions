@@ -31,90 +31,66 @@ export class PermissionService {
     }
 
     public async hasAccess(subject: PermissionSubjectInterface, permissions: PermissionDefinitionInterface[]): Promise<boolean> {
-
         if(!permissions || !permissions.length) {
             return true;
         }
-
-        if(subject.isRoot()) {
+        const hasRoot = subject.getRoles().find(role => role.getName() === this.rootOptions.name)
+        if(hasRoot) {
             return true;
         }
-
-
         for(const permission of permissions) {
             const entity = await this.permissionRepository.findByPermission(permission.permission);
 
             if(!entity) {
                 return true;
             }
-
             const roles = await this.roleRepository.findByIds(subject.getRoles().map(role => role.getId()));
-
             if(entity.isAccess(roles)) {
                 return true;
             }
         }
-
         return false;
     }
 
     public async define(name: string, permission: string): Promise<Permission> {
-
         const found = await this.permissionRepository.findByPermission(permission);
-
         if(found) {
             this.logger.log(`${permission} defined already`);
             return found;
         }
-
         const permissionEntity = new Permission(name, permission);
-
         const role = await this.roleRepository.findByName(this.rootOptions.name);
-
         if(role) {
             permissionEntity.changeRoles([role]);
         }
-
         await this.permissionRepository.save(permissionEntity);
-
         this.logger.log(`${permission} initialize`);
-
         return permissionEntity;
     }
 
     public async create(data: CreatePermissionData): Promise<Permission> {
         const permission = new Permission(data.name, data.permission);
-
         if(Array.isArray(data.roleIds)) {
             const roles = await this.roleRepository.findByIds(data.roleIds);
             permission.changeRoles(roles);
         }
-
         await this.permissionRepository.save(permission);
-
         return permission;
     }
 
     public async edit(data: EditPermissionData): Promise<Permission> {
         const permission = await this.permissionRepository.getOneById(data.id);
-
-
         if(data.name) {
             permission.changeName(data.name);
         }
-
         if(data.permission) {
             permission.edit(data.permission);
         }
-
         if(data.roleIds) {
             const roles = await this.roleRepository.findByIds(data.roleIds);
             permission.changeRoles(roles);
         }
-
-
         await this.permissionRepository.update(permission);
-
         return permission;
     }
 

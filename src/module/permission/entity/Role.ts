@@ -49,8 +49,4 @@ export class Role {
     public getId() {
         return this.id;
     }
-
-    public get isAdmin() {
-        return this.name === 'admin';
-    }
 }
