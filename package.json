@@ -1,6 +1,6 @@
 {
   "name": "@reactive-underground/permissions",
-  "version": "0.1.13",
+  "version": "1.0.0",
   "description": "Permission control",
   "author": "Artem Ilinykh",
   "private": false,
