@@ -12,7 +12,7 @@ import {RoleService} from "../service/RoleService";
 import { Role } from "../entity/Role";
 import {CreateRoleData} from "../dto/CreateRoleData";
 import {EditRoleData} from "../dto/EditRoleData";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { Permissions } from "../decorator/Permissions";
 
 /**
@@ -28,6 +28,10 @@ export class RoleController {
     ) {}
 
     @Get('roles')
+    @ApiOkResponse({
+        type: Role,
+        isArray: true
+    })
     public async fetch(): Promise<Role[]> {
         return await this.roleService.fetch()
     }
@@ -38,6 +42,9 @@ export class RoleController {
         name: "Role create",
         permission: 'role.create'
     })
+    @ApiOkResponse({
+        type: Role
+    })
     public async create(@Body() data: CreateRoleData): Promise<Role> {
         return  await this.roleService.create(data)
     }
@@ -46,6 +53,9 @@ export class RoleController {
     @Permissions({
         name: "Role edit",
         permission: 'role.edit'
+    })
+    @ApiOkResponse({
+        type: Role
     })
     public async edit(@Body() data: EditRoleData): Promise<Role> {
         return await this.roleService.edit(data)
@@ -56,6 +66,7 @@ export class RoleController {
         name: "Role delete",
         permission: 'role.delete'
     })
+    @ApiOkResponse()
     public async remove(@Param("id") id: number) {
         await this.roleService.remove(id);
     }

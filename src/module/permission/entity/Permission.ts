@@ -2,6 +2,7 @@ import { Role } from "./Role";
 import { Expose, Exclude } from 'class-transformer';
 import { JoinTable, ManyToMany, Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
 import { PermissionInterface } from "./PermissionInterface";
+import { ApiProperty } from "@nestjs/swagger";
 
 
 @Entity({ name: "permissions" })
@@ -9,14 +10,17 @@ export class Permission implements PermissionInterface {
 
     @PrimaryGeneratedColumn({name: 'id'})
     @Expose({name: 'id'})
+    @ApiProperty()
     private id!: number;
 
     @Column({name: 'name'})
     @Expose({name: 'name'})
+    @ApiProperty()
     private name: string;
 
     @Column({ name: 'permission', unique: true })
     @Expose({name: 'permission'})
+    @ApiProperty()
     private permission: string;
 
     @ManyToMany(() => Role, {eager: true})
@@ -70,6 +74,10 @@ export class Permission implements PermissionInterface {
     }
 
     @Expose({name: 'roles'})
+    @ApiProperty({
+        type: Role,
+        isArray: true
+    })
     public getRoles() {
         return this.roles || [];
     }

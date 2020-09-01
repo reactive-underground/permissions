@@ -12,7 +12,7 @@ import {PermissionService} from "../service/PermissionService";
 import { Permission } from "../entity/Permission";
 import {CreatePermissionData} from "../dto/CreatePermissionData";
 import {EditPermissionData} from "../dto/EditPermissionData";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { Permissions } from "../decorator/Permissions";
 
 /**
@@ -28,6 +28,10 @@ export class PermissionController {
     ) {}
 
     @Get('permissions')
+    @ApiOkResponse({
+        type: Permission,
+        isArray: true
+    })
     public async fetch(): Promise<Permission[]> {
         return await this.permissionService.fetch()
     }
@@ -38,6 +42,9 @@ export class PermissionController {
         name: "Permission create",
         permission: 'permission.create'
     })
+    @ApiOkResponse({
+        type: Permission
+    })
     public async create(@Body() data: CreatePermissionData): Promise<Permission> {
         return await this.permissionService.create(data)
     }
@@ -46,6 +53,9 @@ export class PermissionController {
     @Permissions({
         name: "Permission edit",
         permission: 'permission.edit'
+    })
+    @ApiOkResponse({
+        type: Permission
     })
     public async edit(@Body() data: EditPermissionData): Promise<Permission> {
         return await this.permissionService.edit(data)
@@ -57,6 +67,7 @@ export class PermissionController {
         name: "Permission delete",
         permission: 'permission.delete'
     })
+    @ApiOkResponse()
     public async remove(@Param("id") id: number) {
         await this.permissionService.remove(id);
     }

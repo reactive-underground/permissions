@@ -1,23 +1,28 @@
 import { Expose } from 'class-transformer';
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { ApiProperty } from "@nestjs/swagger";
 
 @Entity({ name: "roles" })
 export class Role {
 
     @PrimaryGeneratedColumn({name: 'id'})
     @Expose({name: 'id'})
+    @ApiProperty()
     private id!: number;
 
     @Column({name: 'name', unique: true})
     @Expose({name: 'name'})
+    @ApiProperty()
     private name: string;
 
     @Column({name: 'title'})
     @Expose({name: 'title'})
+    @ApiProperty()
     private title: string;
 
     @Column({name: 'persistence', default: false})
     @Expose({name: 'persistence'})
+    @ApiProperty()
     private readonly persistence: boolean;
 
     public constructor(title: string, name: string, persistence: boolean = false){
