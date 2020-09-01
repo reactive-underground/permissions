@@ -2,11 +2,13 @@ import { Injectable, Logger } from "@nestjs/common";
 import {CreatePermissionData} from "../dto/CreatePermissionData";
 import {EditPermissionData} from "../dto/EditPermissionData";
 import { Permission } from "../entity/Permission";
-import { PermissionInterface } from "../interface/PermissionInterface";
 import { PermissionSubjectInterface } from "../interface/PermissionSubjectInterface";
 import { InjectRoleRepository } from "../decorator/InjectRoleRepository";
 import { PermissionRepositoryInterface, RoleRepositoryInterface } from "../../..";
 import { InjectPermissionRepository } from "../decorator/InjectPermissionRepository";
+import { PermissionDefinitionInterface } from "../decorator/PermissionDefinitionInterface";
+import { InjectRootOptions } from "../decorator/InjectRootOptions";
+import { RootOptions } from "../options/RootOptions";
 
 /**
  * @package module.permission
@@ -21,13 +23,14 @@ export class PermissionService {
     constructor(
         @InjectPermissionRepository() private readonly permissionRepository: PermissionRepositoryInterface,
         @InjectRoleRepository() private readonly roleRepository: RoleRepositoryInterface,
+        @InjectRootOptions() private readonly rootOptions: RootOptions
     ) {}
 
     public async fetch(): Promise<Permission[]> {
         return this.permissionRepository.findAll();
     }
 
-    public async hasAccess(subject: PermissionSubjectInterface, permissions: PermissionInterface[]): Promise<boolean> {
+    public async hasAccess(subject: PermissionSubjectInterface, permissions: PermissionDefinitionInterface[]): Promise<boolean> {
 
         if(!permissions || !permissions.length) {
             return true;
@@ -66,7 +69,7 @@ export class PermissionService {
 
         const permissionEntity = new Permission(name, permission);
 
-        const role = await this.roleRepository.findByName('admin');
+        const role = await this.roleRepository.findByName(this.rootOptions.name);
 
         if(role) {
             permissionEntity.changeRoles([role]);

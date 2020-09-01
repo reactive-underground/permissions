@@ -1,9 +1,9 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { PermissionService } from "../service/PermissionService";
-import { PermissionInterface } from "../interface/PermissionInterface";
 import { PermissionDeniedException } from "../exception/PermissionDeniedException";
 import { PermissionSubjectInterface } from "../interface/PermissionSubjectInterface";
+import { PermissionDefinitionInterface } from "../decorator/PermissionDefinitionInterface";
 
 /**
  * @package module.permission.guard
@@ -19,8 +19,8 @@ export class PermissionGuard implements CanActivate{
     ) {}
 
     public async canActivate(context: ExecutionContext) {
-        const permissions: PermissionInterface[] = this.reflector
-            .get<(PermissionInterface)[]>('permissions', context.getHandler())
+        const permissions: PermissionDefinitionInterface[] = this.reflector
+            .get<(PermissionDefinitionInterface)[]>('permissions', context.getHandler())
 
         const request = context.switchToHttp().getRequest();
 

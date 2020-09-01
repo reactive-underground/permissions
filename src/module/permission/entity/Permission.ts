@@ -1,10 +1,11 @@
 import { Role } from "./Role";
 import { Expose, Exclude } from 'class-transformer';
 import { JoinTable, ManyToMany, Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+import { PermissionInterface } from "./PermissionInterface";
 
 
 @Entity({ name: "permissions" })
-export class Permission {
+export class Permission implements PermissionInterface {
 
     @PrimaryGeneratedColumn({name: 'id'})
     @Expose({name: 'id'})
@@ -29,6 +30,10 @@ export class Permission {
     public constructor(name: string, permission: string){
         this.name = name;
         this.permission = permission;
+    }
+
+    public hasAccess(roles: Role[]): boolean {
+        return this.isAccess(roles);
     }
 
     public getId() {

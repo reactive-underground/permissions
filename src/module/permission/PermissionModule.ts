@@ -3,10 +3,11 @@ import {RoleService} from "./service/RoleService";
 import {PermissionService} from "./service/PermissionService";
 import { DiscoveryModule } from "@nestjs-plus/discovery";
 import { Interface } from "./decorator/Interface";
-import { PERMISSION_REPOSITORY_INTERFACE, ROLE_REPOSITORY_INTERFACE } from "./constants/constants";
+import { PERMISSION_REPOSITORY_INTERFACE, ROLE_REPOSITORY_INTERFACE, ROOT_OPTIONS } from "./constants/constants";
 import { PermissionModuleInitInterface } from "./PermissionModuleInitInterface";
 import { PermissionController } from "./controller/PermissionController";
 import { RoleController } from "./controller/RoleController";
+import { RootOptions } from "./options/RootOptions";
 
 /**
  * @package module.permission
@@ -26,7 +27,13 @@ export class PermissionModule {
                 useClass: options.repository.role
             },
             RoleService,
-            PermissionService
+            PermissionService,
+            {
+                provide: ROOT_OPTIONS,
+                useValue: {
+                    name: options.root?.name || "root"
+                } as RootOptions
+            }
         ];
 
         const prefix = options.controller?.prefix || "";
