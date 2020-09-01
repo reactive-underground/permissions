@@ -9,6 +9,7 @@ import { PermissionController } from "./controller/PermissionController";
 import { RoleController } from "./controller/RoleController";
 import { RootOptions } from "./options/RootOptions";
 import { PermissionDefinitionInterface } from "./decorator/PermissionDefinitionInterface";
+import { InjectRootOptions } from "./decorator/InjectRootOptions";
 
 /**
  * @package module.permission
@@ -22,10 +23,14 @@ export class PermissionModule implements OnModuleInit {
      *
      * @param discoveryService
      * @param permissionService
+     * @param roleService
+     * @param rootOptions
      */
     constructor(
         private readonly discoveryService: DiscoveryService,
-        private readonly permissionService: PermissionService
+        private readonly permissionService: PermissionService,
+        private readonly roleService: RoleService,
+        @InjectRootOptions() private readonly rootOptions: RootOptions
     ) {}
 
     public static forRoot(options: PermissionModuleInitInterface): DynamicModule {
@@ -67,6 +72,11 @@ export class PermissionModule implements OnModuleInit {
     }
 
     public async onModuleInit(): Promise<void> {
+        await this.initPermissions();
+        await this.initRoles();
+    }
+
+    private async initPermissions(): Promise<void> {
         const methodsWithPermissions = await this.discoveryService.controllerMethodsWithMetaAtKey('permissions');
 
         const permissions: PermissionDefinitionInterface[] = methodsWithPermissions.map(method => {
@@ -83,5 +93,12 @@ export class PermissionModule implements OnModuleInit {
         }
     }
 
+    private async initRoles(): Promise<void> {
+        await this.roleService.define({
+            name: this.rootOptions.name,
+            persistence: true,
+            title: this.rootOptions.name
+        });
+    }
 
 }
