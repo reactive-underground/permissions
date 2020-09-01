@@ -1,18 +1,28 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "strict": true,
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "target": "es2017",
-    "lib": [
-      "ES2019"
-    ],
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./src",
-    "incremental": true
+    "baseUrl": "./",
+    "incremental": true,
+    "paths": {
+      "test/*": [
+        "test/*"
+      ]
+    }
   },
-  "exclude": ["node_modules", "dist", "index.ts", "index.d.ts"]
+  "include": [
+    "src/**/*",
+    "test/**/*",
+    ".eslintrc.js",
+    "types/**/*",
+    "tsconfig-paths-bootstrap.js"
+  ]
 }

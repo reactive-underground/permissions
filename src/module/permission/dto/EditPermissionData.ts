@@ -4,7 +4,7 @@
  * @class EditPermissionData
  */
 export class EditPermissionData {
-    id: number;
+    id!: number;
     name?: string;
     permission?: string;
     roleIds?: number[]

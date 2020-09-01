@@ -4,7 +4,7 @@
  * @class EditRoleData
  */
 export class EditRoleData {
-    id: number;
+    id!: number;
     title?: string;
     name?: string;
 }

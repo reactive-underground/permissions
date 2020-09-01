@@ -1,8 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { RolesRepository } from "../repository/RolesRepository";
-import {CreateRoleData} from "../dto/CreateRoleData";
+import { CreateRoleData } from "../dto/CreateRoleData";
 import { Role } from "../entity/Role";
-import {EditRoleData} from "../dto/EditRoleData";
+import { EditRoleData } from "../dto/EditRoleData";
+import { RoleRepositoryInterface } from "../../..";
+import { InjectRoleRepository } from "../decorator/InjectRoleRepository";
 
 /**
  * @package module.permission.service
@@ -12,43 +13,45 @@ import {EditRoleData} from "../dto/EditRoleData";
 @Injectable()
 export class RoleService {
     constructor(
-        private readonly rolesRepository: RolesRepository
+        @InjectRoleRepository() private readonly roleRepository: RoleRepositoryInterface
     ) {}
 
     public async fetch(): Promise<Role[]> {
-        return await this.rolesRepository.findAll();
+        return await this.roleRepository.findAll();
+    }
+
+    public async define(dto: CreateRoleData): Promise<Role> {
+        const exists = await this.roleRepository.findByName(dto.name);
+        if(exists) {
+            return exists;
+        }
+
+        return this.create(dto);
     }
 
     public async getByIds(ids: number[]): Promise<Role[]> {
-        return await this.rolesRepository.findByIds(ids);
+        return await this.roleRepository.findByIds(ids);
     }
 
     public async create(data: CreateRoleData): Promise<Role> {
         const role = new Role(data.title, data.name, data.persistence);
-
-        await this.rolesRepository.save(role);
-
+        await this.roleRepository.save(role);
         return role;
     }
 
     public async edit(data: EditRoleData): Promise<Role> {
-        const role = await this.rolesRepository.getOneById(data.id);
-
+        const role = await this.roleRepository.getOneById(data.id);
         if(data.title) {
             role.changeTitle(data.title);
         }
-
         if(data.name) {
             role.rename(data.name);
         }
-
-
-        await this.rolesRepository.update(role);
-
+        await this.roleRepository.update(role);
         return role;
     }
 
     public async remove(id: number): Promise<void> {
-        await this.rolesRepository.removeById(id);
+        await this.roleRepository.removeById(id);
     }
 }

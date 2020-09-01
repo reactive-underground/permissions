@@ -4,7 +4,7 @@
  * @class CreatePermissionData
  */
 export class CreatePermissionData {
-    name: string;
-    permission: string;
+    name!: string;
+    permission!: string;
     roleIds?: number[];
 }

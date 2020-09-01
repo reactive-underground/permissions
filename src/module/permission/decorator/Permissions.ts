@@ -3,10 +3,10 @@
  * @author Artem Ilinykh devsinglesly@gmail.com
  */
 import { SetMetadata } from "@nestjs/common";
-import { PermissionInterface } from "../interface/PermissionInterface";
 import { LogicalException } from "node-exceptions/build/src";
+import { PermissionDefinitionInterface } from "./PermissionDefinitionInterface";
 
-export const Permissions = (...permissions: (PermissionInterface | string)[]) => {
+export const Permissions = (...permissions: (PermissionDefinitionInterface | string)[]) => {
 
     if(permissions.length <= 0) {
         throw new LogicalException("Permission decorator should be have 1 or greater rule");
@@ -17,7 +17,7 @@ export const Permissions = (...permissions: (PermissionInterface | string)[]) =>
             return {
                 permission: permission,
                 name: permission
-            } as PermissionInterface;
+            } as PermissionDefinitionInterface;
         }
 
         if(typeof permission === "object") {
@@ -28,7 +28,7 @@ export const Permissions = (...permissions: (PermissionInterface | string)[]) =>
             return {
                 permission: permission.permission,
                 name: permission.hasOwnProperty('name') ? permission.name : permission.permission
-            } as PermissionInterface;
+            } as PermissionDefinitionInterface;
         }
 
         throw new TypeError(`Incorrect permission rule in decorator ${JSON.stringify(permission)}`);

@@ -7,5 +7,4 @@ import { Role } from "../entity/Role";
 
 export interface PermissionSubjectInterface {
     getRoles(): Role[];
-    isRoot(): boolean;
 }
