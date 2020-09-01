@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { PermissionService } from "../service/PermissionService";
 import { PermissionDeniedException } from "../exception/PermissionDeniedException";
-import { PermissionSubjectInterface } from "../interface/PermissionSubjectInterface";
+import { PermissionSubjectInterface } from "./PermissionSubjectInterface";
 import { PermissionDefinitionInterface } from "../decorator/PermissionDefinitionInterface";
 
 /**
