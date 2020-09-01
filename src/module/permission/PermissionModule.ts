@@ -1,13 +1,14 @@
-import { Controller, DynamicModule, Module, Provider } from "@nestjs/common";
+import { Controller, DynamicModule, Module, OnModuleInit, Provider } from "@nestjs/common";
 import {RoleService} from "./service/RoleService";
 import {PermissionService} from "./service/PermissionService";
-import { DiscoveryModule } from "@nestjs-plus/discovery";
+import { DiscoveryModule, DiscoveryService } from "@nestjs-plus/discovery";
 import { Interface } from "./decorator/Interface";
 import { PERMISSION_REPOSITORY_INTERFACE, ROLE_REPOSITORY_INTERFACE, ROOT_OPTIONS } from "./constants/constants";
 import { PermissionModuleInitInterface } from "./PermissionModuleInitInterface";
 import { PermissionController } from "./controller/PermissionController";
 import { RoleController } from "./controller/RoleController";
 import { RootOptions } from "./options/RootOptions";
+import { PermissionDefinitionInterface } from "./decorator/PermissionDefinitionInterface";
 
 /**
  * @package module.permission
@@ -15,7 +16,18 @@ import { RootOptions } from "./options/RootOptions";
  * @class PermissionModule
  */
 @Module({})
-export class PermissionModule {
+export class PermissionModule implements OnModuleInit {
+
+    /**
+     *
+     * @param discoveryService
+     * @param permissionService
+     */
+    constructor(
+        private readonly discoveryService: DiscoveryService,
+        private readonly permissionService: PermissionService
+    ) {}
+
     public static forRoot(options: PermissionModuleInitInterface): DynamicModule {
         const providers: Provider[] = [
             {
@@ -53,4 +65,23 @@ export class PermissionModule {
             exports: providers
         }
     }
+
+    public async onModuleInit(): Promise<void> {
+        const methodsWithPermissions = await this.discoveryService.controllerMethodsWithMetaAtKey('permissions');
+
+        const permissions: PermissionDefinitionInterface[] = methodsWithPermissions.map(method => {
+            return (method.meta) as PermissionDefinitionInterface[];
+        })
+            .reduce((accum, item) => {
+                accum.push(...item);
+
+                return accum;
+            }, [] as PermissionDefinitionInterface[]);
+
+        for(const permission of permissions) {
+            await this.permissionService.define(permission.name || permission.permission, permission.permission);
+        }
+    }
+
+
 }
