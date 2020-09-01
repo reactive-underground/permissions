@@ -26,26 +26,19 @@ export class RoleService {
 
     public async create(data: CreateRoleData): Promise<Role> {
         const role = new Role(data.title, data.name, data.persistence);
-
         await this.roleRepository.save(role);
-
         return role;
     }
 
     public async edit(data: EditRoleData): Promise<Role> {
         const role = await this.roleRepository.getOneById(data.id);
-
         if(data.title) {
             role.changeTitle(data.title);
         }
-
         if(data.name) {
             role.rename(data.name);
         }
-
-
         await this.roleRepository.update(role);
-
         return role;
     }
 
