@@ -20,6 +20,15 @@ export class RoleService {
         return await this.roleRepository.findAll();
     }
 
+    public async define(dto: CreateRoleData): Promise<Role> {
+        const exists = await this.roleRepository.findByName(dto.name);
+        if(exists) {
+            return exists;
+        }
+
+        return this.create(dto);
+    }
+
     public async getByIds(ids: number[]): Promise<Role[]> {
         return await this.roleRepository.findByIds(ids);
     }
